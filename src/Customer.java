@@ -19,15 +19,6 @@ public class Customer {
     // Behaviours/Methods
     // ************************************************************
 
-    Customer() {
-        this.userID = null;
-        this.name = null;
-        this.email = null;
-        this.password = null;
-        this.phone = null;
-        this.address = null;
-        this.age = 0;
-    }
 
     /**
      * Registers new customer to the program. Obj of RandomGenerator(Composition) is
@@ -42,9 +33,8 @@ public class Customer {
      */
     Customer(String name, String email, String password, String phone, String address, int age) {
         RandomGenerator random = new RandomGenerator();
-        random.randomIDGen();
         this.name = name;
-        this.userID = random.getRandomNumber();
+        this.userID = random.randomIDGen();
         this.email = email;
         this.password = password;
         this.phone = phone;
@@ -68,7 +58,7 @@ public class Customer {
         String name = read.nextLine();
         System.out.print("Enter your email address :\t");
         String email = read.nextLine();
-        while (isUniqueData(email)) {
+        while (isEmailUnique(email)) {
             System.out.println(
                     "ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
             System.out.print("Enter your email address :\t");
@@ -98,40 +88,14 @@ public class Customer {
                 randomIDDisplay(userID), name, age, email, address, phone);
     }
 
-    /**
-     * Searches for customer with the given ID and displays the customers' data if
-     * found.
-     *
-     * @param ID of the searching/required customer
-     */
-    public void searchUser(String ID) {
-        boolean isFound = false;
-        Customer customerWithTheID = customerCollection.get(0);
-        for (Customer c : customerCollection) {
-            if (ID.equals(c.getUserID())) {
-                System.out.printf("%-50sCustomer Found...!!!Here is the Full Record...!!!\n\n\n", " ");
-                displayHeader();
-                isFound = true;
-                customerWithTheID = c;
-                break;
-            }
-        }
-        if (isFound) {
-            System.out.println(customerWithTheID.toString(1));
-            System.out.printf(
-                    "%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n",
-                    "");
-        } else {
-            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
-        }
-    }
+
 
     /**
      * Returns true if the given emailID is already registered, false otherwise
      *
      * @param emailID to be checked in the list
      */
-    public boolean isUniqueData(String emailID) {
+    public boolean isEmailUnique(String emailID) {
         boolean isUnique = false;
         for (Customer c : customerCollection) {
             if (emailID.equals(c.getEmail())) {
@@ -140,72 +104,6 @@ public class Customer {
             }
         }
         return isUnique;
-    }
-
-    public void editUserInfo(String ID) {
-        boolean isFound = false;
-        Scanner read = new Scanner(System.in);
-        for (Customer c : customerCollection) {
-            if (ID.equals(c.getUserID())) {
-                isFound = true;
-                System.out.print("\nEnter the new name of the Passenger:\t");
-                String name = read.nextLine();
-                c.setName(name);
-                System.out.print("Enter the new email address of Passenger " + name + ":\t");
-                c.setEmail(read.nextLine());
-                System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
-                c.setPhone(read.nextLine());
-                System.out.print("Enter the new address of Passenger " + name + ":\t");
-                c.setAddress(read.nextLine());
-                System.out.print("Enter the new age of Passenger " + name + ":\t");
-                c.setAge(read.nextInt());
-                displayCustomersData(false);
-                break;
-            }
-        }
-        if (!isFound) {
-            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
-        }
-    }
-
-    public void deleteUser(String ID) {
-        boolean isFound = false;
-        Iterator<Customer> iterator = customerCollection.iterator();
-        while (iterator.hasNext()) {
-            Customer customer = iterator.next();
-            if (ID.equals(customer.getUserID())) {
-                isFound = true;
-                break;
-            }
-        }
-        if (isFound) {
-            iterator.remove();
-            System.out.printf("\n%-50sPrinting all  Customer's Data after deleting Customer with the ID %s.....!!!!\n",
-                    "", ID);
-            displayCustomersData(false);
-        } else {
-            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
-        }
-    }
-
-    /**
-     * Shows the customers' data in formatted way.
-     * 
-     * @param showHeader to check if we want to print ascii art for the customers'
-     *                   data.
-     */
-    public void displayCustomersData(boolean showHeader) {
-        displayHeader();
-        Iterator<Customer> iterator = customerCollection.iterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            i++;
-            Customer c = iterator.next();
-            System.out.println(c.toString(i));
-            System.out.printf(
-                    "%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n",
-                    "");
-        }
     }
 
     /**
@@ -296,6 +194,10 @@ public class Customer {
         return age;
     }
 
+    public int setAge(int age) {
+        return this.age = age;
+    }
+
     public String getUserID() {
         return userID;
     }
@@ -308,23 +210,4 @@ public class Customer {
         return numOfTicketsBookedByUser;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }
