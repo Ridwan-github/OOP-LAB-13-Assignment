@@ -28,7 +28,7 @@ public class RandomGenerator {
 
 
     /* Generates Random ID for the Customers....*/
-    public void randomIDGen() {
+    public String randomIDGen() {
         Random rand = new Random();
         String randomID = Integer.toString(rand.nextInt(1000000));
 
@@ -36,6 +36,7 @@ public class RandomGenerator {
             randomID = Integer.toString(rand.nextInt(1000000));
         }
         setRandomNum(randomID);
+        return randomID;
     }
 
     /*This method sets the destinations for each of the flights from the above destinations randomly.....*/
