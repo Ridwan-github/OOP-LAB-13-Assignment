@@ -12,7 +12,7 @@ public class User {
         Flight f1 = new Flight();
         FlightReservation bookingAndReserving = new FlightReservation();
         Customer c1 = new Customer(); // Using no-argument constructor
-        f1.flightScheduler();
+        f1.flightSchedule();
         Scanner read = new Scanner(System.in);
         Scanner read1 = new Scanner(System.in);
 
